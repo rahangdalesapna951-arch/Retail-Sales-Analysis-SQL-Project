@@ -1,0 +1,54 @@
+SELECT SUM(total_amount) AS total_revenue
+FROM sales;
+
+SELECT COUNT(order_id) AS total_orders
+FROM orders;
+
+SELECT p.product_name,
+SUM(s.total_amount) AS revenue
+FROM sales s
+JOIN products p
+ON s.product_id = p.product_id
+GROUP BY p.product_name;
+
+SELECT p.product_name,
+SUM(s.quantity) AS total_sold
+FROM sales s
+JOIN products p
+ON s.product_id = p.product_id
+GROUP BY p.product_name
+ORDER BY total_sold DESC
+LIMIT 1;
+
+SELECT c.region,
+SUM(s.total_amount) AS revenue
+FROM sales s
+JOIN orders o ON s.order_id = o.order_id
+JOIN customers c ON o.customer_id = c.customer_id
+GROUP BY c.region;
+
+SELECT c.customer_name,
+SUM(s.total_amount) AS total_spent
+FROM sales s
+JOIN orders o ON s.order_id = o.order_id
+JOIN customers c ON o.customer_id = c.customer_id
+GROUP BY c.customer_name
+ORDER BY total_spent DESC;
+
+SELECT MONTH(order_date) AS month,
+COUNT(order_id) AS total_orders
+FROM orders
+GROUP BY MONTH(order_date);
+
+SELECT AVG(total_amount) AS avg_order_value
+FROM sales;
+
+SELECT product_name, price
+FROM products
+WHERE price > (SELECT AVG(price) FROM products);
+
+SELECT product_id,
+SUM(total_amount) AS revenue,
+RANK() OVER (ORDER BY SUM(total_amount) DESC) AS product_rank
+FROM sales
+GROUP BY product_id;

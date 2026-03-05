@@ -1,0 +1,60 @@
+CREATE DATABASE retail_sales_project;
+USE retail_sales_project
+
+CREATE TABLE customers (
+customer_id INT PRIMARY KEY,
+customer_name VARCHAR(100),
+region VARCHAR(50)
+);
+
+CREATE TABLE products (
+product_id INT PRIMARY KEY,
+product_name VARCHAR(100),
+category VARCHAR(50),
+price DECIMAL(10,2)
+);
+
+CREATE TABLE orders (
+order_id INT PRIMARY KEY,
+customer_id INT,
+order_date DATE,
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE sales (
+sale_id INT PRIMARY KEY,
+order_id INT,
+product_id INT,
+quantity INT,
+total_amount DECIMAL(10,2),
+FOREIGN KEY (order_id) REFERENCES orders(order_id),
+FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+INSERT INTO customers VALUES
+(1,'Rahul','North'),
+(2,'Priya','South'),
+(3,'Amit','West'),
+(4,'Neha','East'),
+(5,'Rohan','North');
+
+INSERT INTO products VALUES
+(101,'Laptop','Electronics',60000),
+(102,'Phone','Electronics',30000),
+(103,'Desk Chair','Furniture',5000),
+(104,'Table','Furniture',7000),
+(105,'Headphones','Electronics',2000);
+
+INSERT INTO orders VALUES
+(1001,1,'2024-01-10'),
+(1002,2,'2024-01-11'),
+(1003,3,'2024-01-12'),
+(1004,1,'2024-01-13'),
+(1005,4,'2024-01-14');
+
+INSERT INTO sales VALUES
+(1,1001,101,1,60000),
+(2,1002,102,2,60000),
+(3,1003,103,3,15000),
+(4,1004,105,5,10000),
+(5,1005,104,2,14000);
